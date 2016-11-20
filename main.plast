@@ -1,0 +1,162 @@
+"std.plast"
+"std++.plast"
+
+console
+  cWidth, cHeight = 0, 0
+  cWidth consoleWidth 
+  cHeight consoleHeight
+  this.width = cWidth
+  this.height = cHeight
+
+console width
+  return this.width
+
+console height
+  return this.height
+
+console clear
+  this clearLines this.height
+
+console clearLines integer
+  out = ""
+  i, j = 0, 0
+  j <: arg
+    i <: this.width
+      out += " "
+      i += 1
+    out print
+    out = ""
+    j += 1
+
+console line string
+  len = arg length
+  widthSpace, i, out = this.width - len, 0, arg
+  i <: widthSpace
+    out += " "
+    i += 1
+  out print
+
+map
+  this.map = " : : : : : : : : "
+  c console
+  this.console = c
+  this.wait = 1
+  
+map render
+  this.console line "-------------"
+  out, i = "", 0
+  this.map tok ":" each item
+    out += "| " + item + " "
+    check = i % 3
+    check == 2
+      out += "|"
+      this.console line out
+      this.console line "-------------"
+      out = ""
+    i += 1
+  out print
+  consoleHeight = this.console height
+  this.console clearLines consoleHeight - 10
+
+map set integer
+  i = 1
+  res = ""
+  this.map tok ":" each item
+    i == arg && item == " "
+      res += "X"
+      this.wait = 0
+    else
+      res += item
+    i != 9
+      res += ":"
+    i += 1
+  this.map = res
+
+map check
+  i = 0
+  line, v1, v2, v3, d1, d2 = "", "", "", "", "", ""
+  this.map tok ":" each el
+    line += el
+    line == "XXX"
+      "X одержал победу!" print
+      return 1
+    line == "000"
+      "0 одержал победу!" print
+      return 1
+    i == 0 || i == 4 || i == 8
+      d1 += el
+    i == 2 || i == 4 || i == 6
+      d2 += el
+    d = i % 3
+    d == 0
+      v1 += el
+    d == 1
+      v2 += el
+    d == 2
+      v3 += el
+      line = ""
+    i += 1
+  v1 == "XXX" || v2 == "XXX" || v3 == "XXX" || d1 == "XXX" || d2 == "XXX"
+    "X одержал победу!" print
+    return 1
+  v1 == "000" || v2 == "000" || v3 == "000" || d1 == "000" || d2 == "000"
+    "0 одержал победу!" print
+    return 1
+  return 0
+
+map step
+  this.wait == 0
+    arr = undefined integerArray
+    i = 1
+    this.map tok ":" each el
+      el == " "
+        arr push i
+      i += 1
+    zero = arr length rand
+    val, i = 0, 0
+    arr each pos
+      i == zero
+        val = pos
+      i += 1
+    i = 1
+    res = ""
+    this.map tok ":" each item
+      i print
+      val print 
+      "'" + item + "'" print
+      i == val && item == " "
+        res += "0"
+      else
+        res += item
+      res print
+      i != 9
+        res += ":"
+      i += 1
+    this.map = res
+    this.wait = 1
+    this render
+
+main
+  c console
+  c clear
+
+  m map
+  
+  gameOver, firstRun = 0, 1
+  gameOver <: 1
+    m render
+    m check  == 1
+      gameOver = 1
+    else 
+      firstRun == 1
+        firstRun = 0
+      else
+        m step
+      m check  == 1
+        gameOver = 1
+      else
+        c line "Введите номер ячейки:"
+        inp = 1
+        inp readint
+        inp > 0 && inp < 10
+          m set inp

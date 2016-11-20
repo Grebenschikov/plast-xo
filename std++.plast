@@ -1,0 +1,20 @@
+integer consoleWidth
+  `$this = _consoleWidth()` integer
+
+integer consoleHeight
+  `$this = _consoleHeight()` integer
+
+string length
+  `sdslen($this)` integer
+
+integer readint
+  `$this = _readint()` integer
+
+undefined integerArray
+  `_createIntegerArray()` array:integer
+
+integer rand
+  `realRand() % $this` integer
+
+array length
+  `kv_size($this)` integer
