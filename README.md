@@ -1,4 +1,4 @@
-PLAST X0
+Plast XO
 =====
 
-First game writen on plast lang
+First game written on plast lang

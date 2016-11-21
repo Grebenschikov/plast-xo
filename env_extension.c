@@ -10,7 +10,7 @@ int _consoleHeight() {
   return size.ws_row;
 }
 
-int _readint() {
+int _consoleReadInteger() {
   char line[256];
   int output;
   if(fgets(line, 256, stdin) && sscanf(line, "%d", &output) != 1) {
@@ -20,13 +20,7 @@ int _readint() {
   return output;
 }
 
-array_integer _createIntegerArray() {
-  array_integer array;
-  kv_init(array);
-  return array;
-}
-
-int realRand() {
+int _integerRand() {
   static bool init = false;
   if (!init) {
     srand(time(0));
